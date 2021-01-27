@@ -26,16 +26,6 @@ class ArticleController extends Controller
             // ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    //     //
-    // }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -78,17 +68,6 @@ class ArticleController extends Controller
 
         return response()->json($article);
     }
-
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  \App\Models\Article  $article
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit(Article $article)
-    // {
-    //     //
-    // }
 
     /**
      * Update the specified resource in storage.

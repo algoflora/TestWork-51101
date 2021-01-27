@@ -9,8 +9,20 @@
             </svg>
         </template>
         <template v-else>
-            <input type="text" placeholder="Username" v-model="name" class="mr-2 pl-2 rounded outline-none border-2 border-blue-200 focus:border-blue-600" />
-            <input type="password" placeholder="Password" v-model="password" class="mr-2 pl-2 rounded outline-none border-2 border-blue-200 focus:border-blue-600" />
+            <input
+                type="text"
+                placeholder="Username"
+                v-model="name"
+                @keyup.enter="isRegister ? register() : login()"
+                class="mr-2 pl-2 rounded outline-none border-2 border-blue-200 focus:border-blue-600"
+            />
+            <input
+                type="password"
+                placeholder="Password"
+                v-model="password"
+                @keyup.enter="isRegister ? register() : login()"
+                class="mr-2 pl-2 rounded outline-none border-2 border-blue-200 focus:border-blue-600"
+            />
 
             <svg
                 v-if="isRegister"

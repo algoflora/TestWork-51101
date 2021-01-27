@@ -1,7 +1,9 @@
 <template>
-  <div class="container">
+  <div class="flex flex-col h-screen">
     <navbar />
-    <router-view />
+    <main class="flex-1 overflow-y-auto p-5">
+      <router-view />
+    </main>
   </div>
 </template>
 

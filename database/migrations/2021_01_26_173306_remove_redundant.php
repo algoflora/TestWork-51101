@@ -20,6 +20,12 @@ class RemoveRedundant extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('email');
             $table->dropColumn('email_verified_at');
+            $table->dropColumn('remember_token');
+            $table->string('api_token', 80)
+                ->after('password')
+                ->unique()
+                ->nullable()
+                ->default(null);
         });
     }
 
@@ -48,6 +54,9 @@ class RemoveRedundant extends Migration
             $table->longText('payload');
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
+
+            $table->dropColumn('api_token');
+            $table->rememberToken();
         });
 
         Schema::create('password_resets', function (Blueprint $table) {

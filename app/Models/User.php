@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $rememberTokenName = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -29,15 +31,13 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'api_token',
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
+     * Articles relation
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function articles() {
+        $this->hasMany(Article::class);
+    }
 }

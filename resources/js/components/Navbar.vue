@@ -1,8 +1,8 @@
 <template>
-    <div class="fixed bg-teal-500 flex flex-row justify-between">
-        <router-link to="list">List</router-link>
+    <header class="w-full p-2 bg-blue-500 flex flex-row justify-between align-center">
+        <router-link to="/"><h4>List</h4></router-link>
         <auth />
-    </div>
+    </header>
 </template>
 
 <script>

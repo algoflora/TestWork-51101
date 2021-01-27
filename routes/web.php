@@ -18,12 +18,4 @@ Route::get('/{vue_capture?}', function () {
     return view('index');
 })->where('vue_capture', '^(?!(?:api|kassa|docs|storage|privacy-policy|terms-of-use|Certificates|admin))[\/\w\.-]*');
 
-
-// Authentication Routes...
-Route::post('login', 'Auth\LoginController@login')->name('login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
-// Registration Routes...
-Route::post('register', 'Auth\RegisterController@register');
-
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

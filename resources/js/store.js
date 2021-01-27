@@ -1,9 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import router from './router.js';
-
-export const USER_TOKEN = 'userToken';
+import router from './router';
+import {API_TOKEN, getToken} from './common';
 
 // добавить токент клиента
 axios.interceptors.request.use(
@@ -14,10 +13,11 @@ axios.interceptors.request.use(
     config.baseURL = 'http://127.0.0.1/api/v1';
     config.timeout = 30000;
 
-    const token = localStorage[USER_TOKEN];
+    const token = localStorage[API_TOKEN];
     if(token) {
         config.headers.Authorization = token;
     }
+    config.headers.Accept = 'application/json';
     return config;
   },
   error => {
@@ -34,10 +34,10 @@ axios.interceptors.request.use(
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
-    articles: [],
-    user: {}
+    // articles: [], -- there is no sense to store anything except "user" in state
+    user: null
   },
   getters: {
     isAuthenticated: state => {
@@ -47,39 +47,40 @@ export const store = new Vuex.Store({
   mutations: {
     SET_USER: (state, user) => {
       state.user = user
-    },
-    SET_ARTICLES: (state, articles) => {
-      state.articles = articles
     }
   },
   actions: {
 
     // USER
     getUser: ({commit}) => {
-      return axios.get('/user')
-        .then(user => {
-          commit(SET_USER, user);
+      return axios.get(`/user?token=${getToken()}`)
+        .then(response => {
+          commit('SET_USER', response.data || null);
         })
     },
     registerUser: (context, credetials) => {
       return axios.put('/user', credetials);
     },
     loginUser: ({commit}, credetials) => {
+      console.log('loginUser');
       return axios.post('/user', credetials)
-        .then(({token, user}) => {
-          localStorage.setItem(USER_TOKEN, token);
-          commit(SET_USER, user);
+        .then((response) => {
+          const {token, user} = response.data;
+          localStorage.setItem(API_TOKEN, token);
+          commit('SET_USER', user);
         });
     },
-    logoutUser: () => {
-      localStorage.removeItem(USER_TOKEN);
+    logoutUser: ({commit}) => {
+      commit('SET_USER', null);
+      localStorage.removeItem(API_TOKEN);
     },
 
     // ARTICLES
     getArticles: ({commit}) => {
-      axios.get('/article')
-        .then(articles => {
-          commit(SET_ARTICLES, articles);
+      return axios.get('/article')
+        .then(response => {
+          return response.data;
+          //   commit('SET_ARTICLES', response.data || []);
         })
     },
     // CRUD

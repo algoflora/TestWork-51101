@@ -29,4 +29,5 @@ Route::put('/v1/user', 'App\Http\Controllers\Auth\RegisterController@register')-
 
 // CRUD routes for Article
 Route::resource('/v1/article', ArticleController::class)
+    ->only(['index', 'show', 'store', 'update', 'destroy'])
     ->middleware('auth:api');

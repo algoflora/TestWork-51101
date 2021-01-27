@@ -36,7 +36,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // articles: [], -- there is no sense to store anything except "user" in state
+    page: 1,
     user: null
   },
   getters: {
@@ -45,11 +45,19 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    SET_PAGE: (state, page) => {
+      state.page = page;
+    },
     SET_USER: (state, user) => {
-      state.user = user
+      state.user = user;
     }
   },
   actions: {
+
+    // PAGE
+    setCurrentPage: ({commit}, page) => {
+      commit('SET_PAGE', page);
+    },
 
     // USER
     getUser: ({commit}) => {
@@ -58,11 +66,10 @@ export default new Vuex.Store({
           commit('SET_USER', response.data || null);
         })
     },
-    registerUser: (context, credetials) => {
+    registerUser: (_, credetials) => {
       return axios.put('/user', credetials);
     },
     loginUser: ({commit}, credetials) => {
-      console.log('loginUser');
       return axios.post('/user', credetials)
         .then((response) => {
           const {token, user} = response.data;
@@ -76,25 +83,32 @@ export default new Vuex.Store({
     },
 
     // ARTICLES
-    getArticles: ({commit}) => {
-      return axios.get('/article')
+    getArticles: (_, page) => {
+      return axios.get(`/article?page=${page}`)
         .then(response => {
           return response.data;
-          //   commit('SET_ARTICLES', response.data || []);
-        })
+        });
     },
     // CRUD
-    createArticle: (article) => {
-      return axios.put('/article', article);
+    createArticle: (_, article) => {
+      return axios.post('/article', article)
+        .then(returnData);
     },
-    readArticle: (id) => {
-      return axios.get(`/article/${id}`);
+    readArticle: (_, id) => {
+      return axios.get(`/article/${id}`)
+        .then(returnData);
     },
-    updateArticle: (article) => {
-      return axios.post('/article', article);
+    updateArticle: (_, article) => {
+      return axios.patch(`/article/${article.id}`, article)
+        .then(returnData);
     },
-    deleteArticle: (id) => {
-      return axios.delete(`/article/${id}`);
+    deleteArticle: (_, id) => {
+      return axios.delete(`/article/${id}`)
+        .then(returnData);
     }
   }
 });
+
+const returnData = response => {
+  return response.data;
+};

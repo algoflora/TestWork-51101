@@ -78,15 +78,17 @@
                 this.logoutUser()
                     .then(() => {
                         this.error = null;
-                        this.$router.push('/');
+                        this.$router.go('/');
                     })
             },
             login () {
-                console.log('login');
                 this.loginUser({
                     username: this.name,
                     password: this.password
                 })
+                    .then(() => {
+                        this.$router.go();
+                    })
                     .catch(error => this.error = error.message)
             }
         },

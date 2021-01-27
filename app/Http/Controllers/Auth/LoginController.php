@@ -7,6 +7,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -44,11 +47,15 @@ class LoginController extends Controller
      * Login method
      */
     public function login(Request $request) {
-        if (\Auth::attempt([
+        if (Auth::attempt([
             'name' => $request->input('username'),
             'password' => $request->input('password'),
         ], true)) {
-            return response()->json(['token' => \Auth::user()->api_token, 'user' => \Auth::user()]);
+            $token = Str::random(60);
+            $user = Auth::user();
+            $user->api_token = $token;
+            $user->save();
+            return response()->json(['token' => $token, 'user' => Auth::user()]);
         } else {
             return response(null, 401);
         }

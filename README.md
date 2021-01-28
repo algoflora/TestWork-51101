@@ -3,7 +3,7 @@
 `docker-compose up` in root folder will launch all ecosystem even with some saved PostgreSQL data. 
 [127.0.0.1] in browser will load main page.
 
-You can use `admin/admin` to authenticate. Registaration are simplified so as not to use and configure mailer. Authentication works with `Authorization` header containing API token. Guest users can not create new articles and see unpublished ones. Authorized users can create new articles, edit their ones and see unpublished their ones in the list.
+You can use `admin/admin` to authenticate. Registaration are simplified so as not to use and configure mailer. Authentication works with `Authorization` header containing API token. Guest users can not create new articles and see unpublished ones. Authenticated users can create new articles, edit their ones and see unpublished their ones in the list.
 
 ---
 

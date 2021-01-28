@@ -16,6 +16,5 @@ use Illuminate\Support\Facades\Route;
 // обработка запросов с vue-router
 Route::get('/{vue_capture?}', function () {
     return view('index');
-})->where('vue_capture', '^(?!(?:api|kassa|docs|storage|privacy-policy|terms-of-use|Certificates|admin))[\/\w\.-]*');
+})->where('vue_capture', '^[\/\w\.-]*');
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

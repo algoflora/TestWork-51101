@@ -6,13 +6,12 @@
       </router-link>
     </ul>
     <div class="w-1/2 mx-auto flex flex-row justify-between items-start">
-      <router-link to="/new">
-        <button
-            class="disabled:opacity-50 bg-blue-200 hover:bg-blue-400 p-3"
-            :disabled="!isAuthenticated"
-            :title="!isAuthenticated ? 'Log in to create article' : false"
-        >Create Article</button>
-      </router-link>
+      <button
+        class="disabled:opacity-50 bg-blue-200 hover:bg-blue-400 disabled:hover:bg-blue-200 disabled:cursor-normal p-3"
+        :disabled="!isAuthenticated"
+        :title="!isAuthenticated ? 'Log in to create article' : false"
+        @click="isAuthenticated ? $router.push('/new') : false"
+      >Create Article</button>
       <div class="space-x-2">
         <span v-for="link in filteredLinks"
               :key="`link-${link.index}`"

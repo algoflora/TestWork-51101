@@ -14,16 +14,7 @@ const router = new VueRouter({
       component: List,
     },
     {
-      path: ROOT_URL + ':page',
-      component: List,
-      props(route) {
-        const props = { ...route.params };
-        props.page = +props.page;
-        return props;
-      },
-    },
-    {
-      path: ROOT_URL + 'new' ,
+      path: ROOT_URL + 'new',
       component: Article,
       beforeEnter: (to, from, next) => {
         if (store.getters.isAuthenticated) {
@@ -32,6 +23,15 @@ const router = new VueRouter({
           next('/');
         }
       }
+    },
+    {
+      path: ROOT_URL + ':page',
+      component: List,
+      props(route) {
+        const props = { ...route.params };
+        props.page = +props.page;
+        return props;
+      },
     },
     {
       path: ROOT_URL + 'view/:id' ,
